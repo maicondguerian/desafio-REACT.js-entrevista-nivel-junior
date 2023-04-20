@@ -82,7 +82,7 @@ function App() {
     const increaseProgress = 25;
     const regex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     
-    if (state.inputValueName.length > 10) {
+    if (state.inputValueName.trim().split(' ').length > 1) {
       progress += increaseProgress;
     }
     if (regex.test(state.inputValueEmail)){
@@ -137,7 +137,7 @@ function App() {
             </span>
           </div>
         </div>
-        <button disabled={handleProgressbar() !== 100} onClick={handleSubmitLogin}>Enviar Formulário</button>
+        <button disabled={handleProgressbar() > 100} onClick={handleSubmitLogin}>Enviar Formulário</button>
       </main>
     </div>
   );
