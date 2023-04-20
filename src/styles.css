@@ -84,6 +84,9 @@ select {
   font-size: 14px;
   color: #333;
 }
+.radios-container label{
+  margin-left: .5rem;
+}
 button {
   height: 40px;
   width: 100%;

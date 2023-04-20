@@ -144,10 +144,12 @@ function App() {
           <label htmlFor=''>Gênero</label>
           <div className='radios-container'>
             <span>
-              <input type='radio' name='genre' onChange={(event) => handleInputChange(event, 'radio')}/> Masculino
+              <input type='radio' id='male' name='genre' onChange={(event) => handleInputChange(event, 'radio')}/>
+              <label htmlFor='male'>Masculino</label> 
             </span>
             <span>
-              <input type='radio' name='genre'  onChange={(event) => handleInputChange(event, 'radio')}/> Feminino
+              <input type='radio' id='female' name='genre'  onChange={(event) => handleInputChange(event, 'radio')}/> 
+              <label htmlFor='female'>Feminino</label> 
             </span>
           </div>
         </div>                                                                                                  
