@@ -35,6 +35,8 @@ Ao enviar, deve-se apresentar um alert javascript com sucesso, limpar todos os c
 do formulário e zerar a barra de progresso novamente.
 */
 import { Orbit } from '@uiball/loaders'
+import { toast, ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css';
 import { useEffect, useReducer, useRef, useState } from "react";
 function App() {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -44,13 +46,13 @@ function App() {
         return { ...state, inputValueName: action.payload };
       case 'changeEmail':
         return { ...state, inputValueEmail: action.payload };
-        case 'changeStatus':
-        return {...state, status: action.payload };
-        case 'changeBoolean':
-          return {...state, genreisTrue: true};
-        case 'Isrequesting':
-        return {...state, isRequestingBolean: true};
-          case 'resetFields':
+      case 'changeStatus':
+        return { ...state, status: action.payload };
+      case 'changeBoolean':
+        return { ...state, genreisTrue: true };
+      case 'Isrequesting':
+        return { ...state, isRequestingBolean: true };
+      case 'resetFields':
         return {
           inputValueName: '',
           inputValueEmail: '',
@@ -58,9 +60,9 @@ function App() {
           genreisTrue: false,
           isRequestingBolean: false
         };
-        default:
-          return 'err0r';
-    } 
+      default:
+        return 'err0r';
+    }
   }, {
     inputValueName: '',
     inputValueEmail: '',
@@ -69,50 +71,59 @@ function App() {
     isRequestingBolean: false
   });
 
-  
+
   const handleInputChange = (event, currentField) => {
     if (currentField === 'name') {
       dispatch({ type: 'changeName', payload: event.target.value });
-    }  if (currentField === 'email') {
+    } if (currentField === 'email') {
       dispatch({ type: 'changeEmail', payload: event.target.value });
     } if (currentField === 'status') {
       dispatch({ type: 'changeStatus', payload: event.target.value });
-    } if(currentField === 'radio'){
-      dispatch({type: 'changeBoolean'})
+    } if (currentField === 'radio') {
+      dispatch({ type: 'changeBoolean' })
     }
   };
-  
+
   const handleProgressbar = () => {
     let progress = 0;
     const increaseProgress = 25;
     const regex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    
+
     if (state.inputValueName.trim().split(' ').length > 1) {
       progress += increaseProgress;
     }
-    if (regex.test(state.inputValueEmail)){
+    if (regex.test(state.inputValueEmail)) {
       progress += increaseProgress;
     }
-    if(state.status ){
+    if (state.status) {
       progress += increaseProgress;
     }
-    if(state.genreisTrue){
+    if (state.genreisTrue) {
       progress += increaseProgress;
     }
     return progress;
   };
-  
-  console.log(state.isRequestingBolean);
-  const handleSubmitLogin = () =>{
-    dispatch({type:'Isrequesting'});
-    setIsSubmitting(true);
-    setTimeout(()=> {
-      alert('Submitted')
-     dispatch({type: 'resetFields'});
-     setIsSubmitting(false);
-    },4000)
 
-    
+  console.log(state.isRequestingBolean);
+  const handleSubmitLogin = () => {
+    dispatch({ type: 'Isrequesting' });
+    setIsSubmitting(true);
+    setTimeout(() => {
+      toast.success('Submitted!',{
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      })
+      dispatch({ type: 'resetFields' });
+      setIsSubmitting(false);
+    }, 4000)
+
+
   }
 
   return (
@@ -133,7 +144,7 @@ function App() {
         </div>
         <div className='form-group'>
           <label htmlFor=''>Estado Civil</label>
-          <select  onChange={(event) => handleInputChange(event, 'status')} value={state.status}>
+          <select onChange={(event) => handleInputChange(event, 'status')} value={state.status}>
             <option value=''>- selecione...</option>
             <option value='solteiro'>Solteiro</option>
             <option value='casado'>Casado</option>
@@ -144,17 +155,18 @@ function App() {
           <label htmlFor=''>Gênero</label>
           <div className='radios-container'>
             <span>
-              <input type='radio' id='male' name='genre' onChange={(event) => handleInputChange(event, 'radio')}/>
-              <label htmlFor='male'>Masculino</label> 
+              <input type='radio' id='male' name='genre' onChange={(event) => handleInputChange(event, 'radio')} />
+              <label htmlFor='male'>Masculino</label>
             </span>
             <span>
-              <input type='radio' id='female' name='genre'  onChange={(event) => handleInputChange(event, 'radio')}/> 
-              <label htmlFor='female'>Feminino</label> 
+              <input type='radio' id='female' name='genre' onChange={(event) => handleInputChange(event, 'radio')} />
+              <label htmlFor='female'>Feminino</label>
             </span>
           </div>
-        </div>                                                                                                  
-        <button disabled={state.isRequestingBoolean || handleProgressbar() !== 100} onClick={handleSubmitLogin}>{isSubmitting ? (<span id='loader'><Orbit size={35} color="#231F20" /></span>) : 'Enviar Formulário'}</button>
+        </div>
+        <button className='btnSbmtt' disabled={state.isRequestingBoolean || handleProgressbar() !== 100} onClick={handleSubmitLogin}>{isSubmitting ? (<span id='loader'><Orbit size={35} color="#231F20" /></span>) : 'Enviar Formulário'}</button>
       </main>
+      <ToastContainer/>
     </div>
   );
 }

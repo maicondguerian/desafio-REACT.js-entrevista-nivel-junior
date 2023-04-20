@@ -87,25 +87,25 @@ select {
 .radios-container label{
   margin-left: .5rem;
 }
-button {
+.btnSbmtt{
   height: 40px;
   width: 100%;
   font-size: 16px;
   color: #333;
 }
 
-button:hover {
+.btnSbmtt:hover {
   background: #ddd;
   cursor: pointer;
 }
-button:active {
+.btnSbmtt:active {
   background: #333;
   color: white;
 }
-button:disabled {
+.btnSbmtt:disabled {
   color: #aaa;
 }
-button:disabled:hover {
+.btnSbmtt:disabled:hover {
   background: #fafafa;
 }
 
