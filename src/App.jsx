@@ -40,6 +40,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useEffect, useReducer, useRef, useState } from "react";
 function App() {
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const disableRadio = useRef(null)
   const [state, dispatch] = useReducer((state, action) => {
     switch (action.type) {
       case 'changeName':
@@ -87,12 +88,13 @@ function App() {
   const handleProgressbar = () => {
     let progress = 0;
     const increaseProgress = 25;
+    const emailValue = state.inputValueEmail.trim();
     const regex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
     if (state.inputValueName.trim().split(' ').length > 1) {
       progress += increaseProgress;
     }
-    if (regex.test(state.inputValueEmail)) {
+    if (regex.test(emailValue)) {
       progress += increaseProgress;
     }
     if (state.status) {
@@ -104,8 +106,8 @@ function App() {
     return progress;
   };
 
-  console.log(state.isRequestingBolean);
   const handleSubmitLogin = () => {
+    const awaintResponse = (1.5 + Math.random() * 3) * 1000
     dispatch({ type: 'Isrequesting' });
     setIsSubmitting(true);
     setTimeout(() => {
@@ -121,10 +123,8 @@ function App() {
       })
       dispatch({ type: 'resetFields' });
       setIsSubmitting(false);
-    }, 4000)
-
-
-  }
+    }, awaintResponse)
+  };
 
   return (
     <div className='App'>
@@ -155,11 +155,11 @@ function App() {
           <label htmlFor=''>Gênero</label>
           <div className='radios-container'>
             <span>
-              <input type='radio' id='male' name='genre' onChange={(event) => handleInputChange(event, 'radio')} />
+              <input type='radio' id='male' name='genre' onChange={(event) => handleInputChange(event, 'radio')} ref={disableRadio}/>
               <label htmlFor='male'>Masculino</label>
             </span>
             <span>
-              <input type='radio' id='female' name='genre' onChange={(event) => handleInputChange(event, 'radio')} />
+              <input type='radio' id='female' name='genre' onChange={(event) => handleInputChange(event, 'radio')} ref={disableRadio}/>
               <label htmlFor='female'>Feminino</label>
             </span>
           </div>
