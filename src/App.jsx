@@ -34,9 +34,10 @@ Desabilitar o botão de enviar caso todos os campos não estejam preenchidos/vá
 Ao enviar, deve-se apresentar um alert javascript com sucesso, limpar todos os campos
 do formulário e zerar a barra de progresso novamente.
 */
-
+import { Orbit } from '@uiball/loaders'
 import { useEffect, useReducer, useRef, useState } from "react";
 function App() {
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [state, dispatch] = useReducer((state, action) => {
     switch (action.type) {
       case 'changeName':
@@ -46,13 +47,16 @@ function App() {
         case 'changeStatus':
         return {...state, status: action.payload };
         case 'changeBoolean':
-          return {...state, genreisTrue: true}
+          return {...state, genreisTrue: true};
+        case 'Isrequesting':
+        return {...state, isRequestingBolean: true};
           case 'resetFields':
         return {
           inputValueName: '',
           inputValueEmail: '',
           status: '',
           genreisTrue: false,
+          isRequestingBolean: false
         };
         default:
           return 'err0r';
@@ -62,6 +66,7 @@ function App() {
     inputValueEmail: '',
     status: '',
     genreisTrue: false,
+    isRequestingBolean: false
   });
 
   
@@ -97,10 +102,19 @@ function App() {
     return progress;
   };
   
+  console.log(state.isRequestingBolean);
   const handleSubmitLogin = () =>{
-    alert('Submitted')
-   dispatch({type: 'resetFields'})
+    dispatch({type:'Isrequesting'});
+    setIsSubmitting(true);
+    setTimeout(()=> {
+      alert('Submitted')
+     dispatch({type: 'resetFields'});
+     setIsSubmitting(false);
+    },4000)
+
+    
   }
+
   return (
     <div className='App'>
       <h3>desafio fernandev</h3>
@@ -136,8 +150,8 @@ function App() {
               <input type='radio' name='genre'  onChange={(event) => handleInputChange(event, 'radio')}/> Feminino
             </span>
           </div>
-        </div>
-        <button disabled={handleProgressbar() > 100} onClick={handleSubmitLogin}>Enviar Formulário</button>
+        </div>                                                                                                  
+        <button disabled={state.isRequestingBoolean || handleProgressbar() !== 100} onClick={handleSubmitLogin}>{isSubmitting ? (<span id='loader'><Orbit size={35} color="#231F20" /></span>) : 'Enviar Formulário'}</button>
       </main>
     </div>
   );

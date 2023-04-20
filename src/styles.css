@@ -119,3 +119,11 @@ button:disabled:hover {
 .radios-container span {
   margin-right: 15px;
 }
+
+#loader{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: .5rem;
+  width: 100%;
+}
